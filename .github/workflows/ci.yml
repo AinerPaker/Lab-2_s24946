@@ -1,0 +1,48 @@
+name: Data Processing with Google Sheets
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  download-script:
+    if: contains(github.event.head_commit.message, 'deploy') 
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v3
+      - name: Clone repo with script
+        env:
+          PAT_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+          git clone https://$TOKEN@github.com/PJATK-ASI-2024/Lab2---Obr-bka-danych.git
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Set up Google Sheets credentials
+        run: |
+          echo "${{ secrets.SECRET }}" | base64 -d > credentials.json
+      
+      - name: Run data processing script
+        run: |
+          python Lab2---Obr-bka-danych/generator_danych.py -s 24946
+
+      - name: Run data processing script
+        run: |
+          python s24946.py --upload './data_student_24946.csv'
+
+      - name: Run data processing script
+        run: |
+          python s24946.py --standardize
+
+      - name: Display report
+        run: |
+          cat report.txt
