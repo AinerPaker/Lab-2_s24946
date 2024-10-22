@@ -14,9 +14,9 @@ jobs:
       - uses: actions/checkout@v3
       - name: Clone repo with script
         env:
-          PAT_TOKEN: ${{ secrets.TOKEN }}
+          PAT_TOKEN: ${{ secrets.Token }}
         run: |
-          git clone https://$TOKEN@github.com/PJATK-ASI-2024/Lab2---Obr-bka-danych.git
+          git clone https://$Token@github.com/PJATK-ASI-2024/Lab2---Obr-bka-danych.git
       
       - name: Set up Python
         uses: actions/setup-python@v4
